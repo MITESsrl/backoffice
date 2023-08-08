@@ -8,6 +8,7 @@ use App\Models\Persona;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Admin;
 
 
 
@@ -21,6 +22,7 @@ class PersonaController extends Controller
             'snombre' => 'max:32',
             'papellido' => 'required|max:32',
             'sapellido' => 'max:32',
+            'rol' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|confirmed'
         ]);
@@ -34,8 +36,16 @@ class PersonaController extends Controller
         $idUsuario = $usuario -> id;
         
         $this -> crearPersona($idUsuario, $request);
+        $rol = $request -> post('rol');
+
+        if ($rol == 'administrador'){
+            $this -> crearAdmin($idUsuario);
+            return view ("welcome",[
+                "mensaje" => 'Bienvenido'
+            ]);
+        }
         return view ("welcome",[
-            "mensaje" => 'Bienvenido'
+            "mensaje" => 'Rol incorrecto'
         ]);
 
     }
@@ -59,6 +69,13 @@ class PersonaController extends Controller
         $persona -> save();
         return $persona;
 
+    }
+
+    private function crearAdmin($idUsuario){
+        $admin = new Admin();
+        $admin -> id_persona = $idUsuario;
+        $admin -> save();
+        return $admin;
     }
 
 }

@@ -34,6 +34,15 @@
             <input type="text" id="papellido" name="papellido" required><br><br>
             <label for="sapellido">Segundo Apellido:</label>
             <input type="text" id="sapellido" name="sapellido"><br><br>
+            
+            <label for="rol">Rol:</label>
+            <select name="rol" id="rol">
+                <option value="administrador">Administrador</option>
+                <option value="funcionario">Funcionario</option>
+                <option value="chofer">Chofer</option>
+            </select> <br><br>
+
+
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required><br><br>
             <label for="password">Contraseña:</label>
