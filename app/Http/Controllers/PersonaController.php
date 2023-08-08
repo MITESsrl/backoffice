@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Persona;
 use App\Models\User;
-use App\Models\Administrador;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
@@ -23,7 +22,6 @@ class PersonaController extends Controller
             'papellido' => 'required|max:32',
             'sapellido' => 'max:32',
             'email' => 'required|email|unique:users',
-            'rol' => 'required',
             'password' => 'required|confirmed'
         ]);
 
@@ -36,18 +34,9 @@ class PersonaController extends Controller
         $idUsuario = $usuario -> id;
         
         $this -> crearPersona($idUsuario, $request);
-        $rol = $request -> post('rol');
-
-        if ($rol == 'administrador'){
-            $this -> crearAdmin($idUsuario);
-            return view ("welcome",[
-                "mensaje" => 'Bienvenido'
-            ]);
-        }
         return view ("welcome",[
-            "mensaje" => 'Ese rol no existe'
+            "mensaje" => 'Bienvenido'
         ]);
-
 
     }
 
@@ -70,27 +59,6 @@ class PersonaController extends Controller
         $persona -> save();
         return $persona;
 
-    }
-
-
-    private function crearAdmin($idUsuario){
-        $admin = new Administrador();
-        $admin -> id_persona = $idUsuario;
-        $admin -> save();
-        return $admin;
-    }
-
-
-
-
-
-
-
-    private function crearFuncionario($idUsuario){
-         $funcionario = new Persona();
-        $funcionario -> id = $idUsuario;
-        $persona -> save();
-        return $persona;
     }
 
 }
