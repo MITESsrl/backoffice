@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Persona;
 use App\Models\User;
+use App\Models\Chofer;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Admin;
@@ -27,27 +28,44 @@ class PersonaController extends Controller
             'password' => 'required|confirmed'
         ]);
 
-        if($validation->fails())
+        if($validation->fails()){
             return view ("welcome",[
-                "mensaje" => 'Ha ocurrido un error, revise los campos xfa'
-            ]);;
-
-        $usuario = $this -> crearUsuario($request);
-        $idUsuario = $usuario -> id;
+                "mensaje" => 'Datos incorrectos. Por favor, vuelva a ingresar.'
+            ]); 
+        }
         
-        $this -> crearPersona($idUsuario, $request);
         $rol = $request -> post('rol');
+        if ($rol != 'administrador' && $rol != 'chofer' && $rol != 'funcionario'){
+            return view ("welcome",[
+                "mensaje" => 'Rol incorrecto'
+            ]);
+        }        
 
         if ($rol == 'administrador'){
-            $this -> crearAdmin($idUsuario);
-            return view ("welcome",[
-                "mensaje" => 'Bienvenido'
+            $usuario = $this -> crearUsuario($request);
+            $idUsuario = $usuario -> id;
+            $this -> crearPersona($idUsuario, $request);
+            $this -> crearAdmin($idUsuario);         
+        }
+
+        if ($rol == 'chofer'){
+            $validation = Validator::make($request->all(),[
+                'matricula_camion' => 'required|max:7|min:7|unique:choferes',
             ]);
+    
+            if($validation->fails()){
+                return view ("welcome",[
+                    "mensaje" => 'Ingrese una matricula valida.'
+                ]); 
+            }
+            $usuario = $this -> crearUsuario($request);
+            $idUsuario = $usuario -> id;
+            $this -> crearPersona($idUsuario, $request);
+            $this -> crearChofer($idUsuario, $request);
         }
         return view ("welcome",[
-            "mensaje" => 'Rol incorrecto'
+            "mensaje" => 'Bienvenido'
         ]);
-
     }
 
     private function crearUsuario($request){
@@ -76,6 +94,14 @@ class PersonaController extends Controller
         $admin -> id_persona = $idUsuario;
         $admin -> save();
         return $admin;
+    }
+
+    private function crearChofer($idUsuario, $request){
+        $chofer = new Chofer();
+        $chofer -> id_persona = $idUsuario;
+        $chofer -> matricula_camion = $request -> post("matricula_camion");
+        $chofer -> save();
+        return $chofer;
     }
 
 }

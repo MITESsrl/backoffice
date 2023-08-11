@@ -42,6 +42,8 @@
                 <option value="chofer">Chofer</option>
             </select> <br><br>
 
+            <label for="matricula_camion">Matricula</label>
+            <input type="text" name="matricula_camion" id="matricula_camion">
 
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required><br><br>
@@ -58,3 +60,4 @@
 
     </body>
 </html>
+

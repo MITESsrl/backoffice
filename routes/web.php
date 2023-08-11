@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PersonaController;
+use App\Http\Controllers\CamionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,12 @@ Route::get('/', function () {
 });
 
 Route::post('/crearUsuario', [PersonaController::class,"RegistrarPersona"]);
+
+
+Route::get('/camiones', function () {
+    return view('ingresoCamion');
+});
+
+Route::post('/camiones', [CamionController::class,"Crear"]);
+
+
