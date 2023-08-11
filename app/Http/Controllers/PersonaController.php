@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Persona;
 use App\Models\User;
 use App\Models\Chofer;
+use App\Models\Funcionario;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Admin;
@@ -63,6 +64,21 @@ class PersonaController extends Controller
             $this -> crearPersona($idUsuario, $request);
             $this -> crearChofer($idUsuario, $request);
         }
+        if ($rol == 'funcionario'){
+            $validation = Validator::make($request->all(),[
+                'id_almacen' => 'required|max:2',
+            ]);
+    
+            if($validation->fails()){
+                return view ("welcome",[
+                    "mensaje" => 'Ingrese almacen valida.'
+                ]);
+            }
+            $usuario = $this -> crearUsuario($request);
+            $idUsuario = $usuario -> id;
+            $this -> crearPersona($idUsuario, $request);
+            $this -> crearFuncionario($idUsuario, $request);
+        }
         return view ("welcome",[
             "mensaje" => 'Bienvenido'
         ]);
@@ -102,6 +118,14 @@ class PersonaController extends Controller
         $chofer -> matricula_camion = $request -> post("matricula_camion");
         $chofer -> save();
         return $chofer;
+    }
+
+    private function crearFuncionario($idUsuario, $request){
+        $funcionario = new Funcionario();
+        $funcionario -> id_persona = $idUsuario;
+        $funcionario -> id_almacen = $request -> post("id_almacen");
+        $funcionario -> save();
+        return $funcionario;
     }
 
 }

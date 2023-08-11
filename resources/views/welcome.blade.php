@@ -45,6 +45,9 @@
             <label for="matricula_camion">Matricula</label>
             <input type="text" name="matricula_camion" id="matricula_camion">
 
+            <label for="id_almacen">Almacen</label>
+            <input type="number" name="id_almacen" id="id_almacen">
+
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required><br><br>
             <label for="password">Contraseña:</label>
