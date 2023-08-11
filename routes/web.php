@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\CamionController;
+use App\Http\Controllers\AlmacenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,12 @@ Route::get('/camiones', function () {
     return view('ingresoCamion');
 });
 
-Route::post('/camiones', [CamionController::class,"Crear"]);
+Route::post('/camiones', [AlmacenController::class,"Crear"]);
+
+Route::get('/almacenes', function () {
+    return view('ingresoAlmacen');
+});
+
+Route::post('/almacenes', [AlmacenController::class,"Crear"]);
 
 
