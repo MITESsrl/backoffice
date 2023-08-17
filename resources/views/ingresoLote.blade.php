@@ -2,21 +2,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ingreso Camion</title>
+    <title>Document</title>
 </head>
 <body>
- <h1>Ingrese los datos</h1>  
+<h1>Ingrese lote:</h1>  
    <div class="formulario">
-    <form action="/camiones" method="POST">
+    <form action="/lotes" method="POST">
         @csrf 
         <label for="matricula">Matricula:</label>
         <input type="text" id="matricula" name="matricula" required><br><br>
-
-        <label for="modelo">Modelo:</label>
-        <input type="text" id="modelo" name="modelo" required><br><br>
-
-        <label for="cantMaxProductos">Cantidad máxima de productos:</label>
-        <input type="number" id="cantMaxProductos" name="cantMaxProductos" required><br><br>
 
         <input type="submit" value="Enviar">
 
