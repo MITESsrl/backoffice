@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Camion;
+use App\Models\Hacia;
 
 
 class CamionController extends Controller
@@ -32,5 +33,29 @@ class CamionController extends Controller
             "mensaje" => 'Se ha guardado con éxito'
         ]); 
     }
+
+    public function DestinoAlmacen(Request $request){
+                $validation = Validator::make($request->all(),[
+                'matricula' => 'required|max:7|min:7|exists:camiones',
+                'id' => 'required|max:2|exists:almacenes'
+            ]); 
+    
+            if($validation->fails())
+                return view ("ingresoDestino",[
+                    "mensaje" => 'Ha ocurrido un error, revise los campos'
+                ]); 
+
+            $destinoAlmacen = new Hacia();
+            $destinoAlmacen -> matricula_camion = $request -> post('matricula');
+            $destinoAlmacen -> id_almacen = $request -> post('id');
+            $destinoAlmacen -> save();
+
+            return view ("ingresoDestino",[
+                "mensaje" => 'Se ha guardado con éxito'
+            ]); 
+
+
+    }
+
     
 }

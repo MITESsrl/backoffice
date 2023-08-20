@@ -8,6 +8,7 @@ use App\Http\Controllers\LoteController;
 use App\Http\Controllers\ProductoController;
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -50,4 +51,15 @@ Route::get('/producto', function () {
 
 Route::post('/producto', [ProductoController::class,"Crear"]);
 
+Route::get('/almacenar', function () {
+    return view('ingresoAlmacena');
+});
+
+Route::post('/almacenar', [AlmacenController::class,"Almacenar"]);
+
+Route::get('/destino', function () {
+    return view('ingresoDestino');
+});
+
+Route::post('/destino', [CamionController::class,"DestinoAlmacen"]);
 
